@@ -109,7 +109,7 @@ function renderMap() {
       <div class="welcome-copy"><p class="eyebrow">Start with the outcome</p><h2 id="welcome-title">Turn a broad topic into evidence you can point to.</h2><p>Make one objective, give it one recall question, then record whether you could explain, solve, or recognize the idea without your notes.</p>
       <ul class="principles"><li><strong>State it</strong>Write an observable objective.</li><li><strong>Check it</strong>Answer one focused prompt.</li><li><strong>See it</strong>Find the thinnest evidence next.</li></ul>
       <button class="button primary" type="button" data-action="new-objective">Add your first objective</button></div>
-      <img class="hero-print" src="/assets/field-map.webp" width="1200" height="800" alt="A halftone paper map branching toward explanation, problem-solving, and recognition symbols" fetchpriority="high" decoding="async">
+      <picture><source type="image/avif" srcset="/assets/field-map-720.avif 720w, /assets/field-map.avif 1200w" sizes="(max-width: 760px) calc(100vw - 40px), 52vw"><source type="image/webp" srcset="/assets/field-map-720.webp 720w, /assets/field-map.webp 1200w" sizes="(max-width: 760px) calc(100vw - 40px), 52vw"><img class="hero-print" src="/assets/field-map.jpg" width="1200" height="800" alt="A halftone paper map branching toward explanation, problem-solving, and recognition symbols" fetchpriority="high" decoding="async"></picture>
     </section>`;
   }
   if (!selectedId || !state.objectives.some(item => item.id === selectedId)) selectedId = state.objectives[0].id;

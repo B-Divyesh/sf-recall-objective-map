@@ -28,14 +28,22 @@ test('maps an objective, records recall evidence, and survives reload', async ({
 });
 
 test('has no serious accessibility violations at empty state and works at 390px', async ({ page }) => {
+  const browserErrors: string[] = [];
+  page.on('console', message => { if (message.type() === 'error') browserErrors.push(message.text()); });
+  page.on('pageerror', error => browserErrors.push(error.message));
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
+  await page.getByRole('button', { name: 'Add your first objective' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('dialog', { name: 'Add objective' })).toBeVisible();
+  await page.keyboard.press('Escape');
   // @axe-core/playwright accepts a compatible Playwright Page but declares its own
   // bundled minor version, so bridge the structurally equivalent test fixture here.
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter(item => ['serious', 'critical'].includes(item.impact ?? ''))).toEqual([]);
   await expect(page.getByRole('button', { name: 'Add your first objective' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+  expect(browserErrors).toEqual([]);
 });
 
 test('reopens the app shell offline', async ({ page, context }) => {

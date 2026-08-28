@@ -61,8 +61,9 @@ uses a 68-character measure.
 ## Texture and assets
 
 CSS provides lightweight halftone fields using radial gradients and authored SVG icons
-for interface symbols. The sole raster illustration, `public/assets/field-map.webp`,
-is an original editorial still-life: a branching learning map printed on paper, with
+for interface symbols. The sole raster illustration is served responsively as AVIF,
+WebP, and JPEG from `public/assets/`; it is an original editorial still-life: a
+branching learning map printed on paper, with
 three evidence stamps and no simulated UI/text. It explains the product's core loop
 in the welcome/empty state. The manifest icons are authored SVG-derived PNGs.
 
@@ -89,4 +90,3 @@ Motion is functional and paper-like: a 180ms opacity/translate reveal for newly 
 entries and a 220ms sheet transition for review. Nothing loops. Under
 `prefers-reduced-motion: reduce`, transitions and smooth scrolling are removed and all
 state changes are immediate. Depth remains through borders, overlap, and scale.
-
