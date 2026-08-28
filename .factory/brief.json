@@ -1,0 +1,10 @@
+{
+  "slug": "recall-objective-map",
+  "title": "Recall Objective Map",
+  "artifact_class": "pwa-offline",
+  "user": "A self-learner starting a broad topic who needs every review prompt tied to a stated learning objective and visible evidence of what they can actually explain.",
+  "smallest_useful_product": "Offline PWA with an objective tree, manual evidence tags (explain, solve, recognize), a one-question recall check, and an exportable weekly weak-skill map.",
+  "success_measure": "In a four-week pilot, 60% of users attach 20+ recall checks to objectives and can name their two weakest objectives without opening a card browser.",
+  "monetization": "one-time",
+  "constraints": "Local-first storage and export; no claims that recall score measures mastery; accessibility for keyboard-only review."
+}
