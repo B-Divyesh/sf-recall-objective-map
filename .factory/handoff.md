@@ -8,6 +8,22 @@ The deployed implementation is commit
 documentation-only commit; use `git rev-parse HEAD` for its exact SHA. No product
 redeployment is required for the documentation commit.
 
+## Independent verification 2
+
+**PASS — 0 findings and 0 untested public claims.** Independent verification reviewed
+implementation `63ac99d0ca1e0c5d97fcd74a0ded5c1c8796a020` against documentation
+baseline `c68d445394a6f1d47a5879f7f73b949baf21058f`. The deployed shell, service
+worker, manifest, JS, and CSS hashes match the clean implementation build.
+
+From a fresh clone, `npm ci`, `npm test`, `npm run build`, `npm run test:e2e`,
+`npm audit`, and every one of the 12 exact claim commands passed. Fresh live desktop
+and phone contexts confirmed the first-screen job/audience/action, populated isolated
+demo, persistent demo label, reset, real-data separation, offline reload, normal and
+recovery paths, accessibility, routes, legal pages, privacy requests, and designed 404.
+Live Lighthouse mobile was 100/100/100/100 (Performance/Accessibility/Best
+Practices/SEO). See `.factory/verification-2.md`; the required external copy is
+`/work/.evidence/qa-report.md`.
+
 The app now completes the brief's job: a self-learner can map recall prompts to
 nested learning objectives, record the kind and strength of evidence, and find the
 two objectives with the thinnest recent evidence. It remains a manual record, not a
