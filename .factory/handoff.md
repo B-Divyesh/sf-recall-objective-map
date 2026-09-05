@@ -1,4 +1,37 @@
-# Recall Objective Map — verification handoff
+# Recall Objective Map — review handoff
+
+## Current independent verdict: FAIL
+
+Review 1 on 2026-09-05 confirmed the live product still serves implementation
+`36cc00e1de26e02e1ca549241196addb57144510`; current repository commit
+`d65a6bb87c896933ab52e78c4dae5c4e9c5968e1` is documentation-only. The complete
+report is [review-1.md](review-1.md). It records 11 findings and 12 untested public
+claims. Do not treat a successful build or worker exit as release acceptance.
+
+Most important open work: add the required isolated sample demo and claims suite,
+enable the Field Kit checkout, reject malformed/whitespace imports, and repair the
+missing plain-word landing and route structure. Earlier verification details below
+remain useful historical evidence; every earlier defect was retested and remains
+open except the stale-deployment concern, which is resolved.
+
+## How review 1 was verified
+
+```sh
+npm ci
+npm test
+npm run build
+npm run test:e2e
+npm audit --omit=dev
+```
+
+Fresh desktop and 390 px phone browsers exercised the live core path, invalid and
+boundary imports, persistence, offline reload, links, legal pages, metadata, and
+response headers. The repository's Playwright axe integration reported no
+serious/critical defects in the tested states. The command-line axe launcher could
+not locate a Chrome binary in this worker; this was not substituted for the completed
+Playwright accessibility scan.
+
+## Previous verification handoff
 
 ## Independent verdict: FAIL
 
