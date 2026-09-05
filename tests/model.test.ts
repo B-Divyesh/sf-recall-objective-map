@@ -35,4 +35,42 @@ describe('objective evidence model', () => {
     expect(() => validateImport({ version: 2, objectives: [], checks: [] })).toThrow(/not supported/);
     expect(validateImport(state)).toEqual(state);
   });
+
+  it('rejects objectives missing any required field before replacement', () => {
+    const incomplete = {
+      version: 1,
+      updatedAt: now.toISOString(),
+      objectives: [{ id: 'a', title: 'Explain closures', prompt: 'What is retained?' }],
+      checks: [],
+    };
+    expect(() => validateImport(incomplete)).toThrow(/incomplete or invalid/);
+  });
+
+  it('rejects duplicate ids, missing parents, loops, and orphaned checks', () => {
+    const duplicate = structuredClone(state);
+    duplicate.objectives[1].id = 'a';
+    expect(() => validateImport(duplicate)).toThrow(/incomplete or invalid/);
+
+    const missingParent = structuredClone(state);
+    missingParent.objectives[1].parentId = 'missing';
+    expect(() => validateImport(missingParent)).toThrow(/links.*invalid/);
+
+    const loop = structuredClone(state);
+    loop.objectives[0].parentId = 'b';
+    expect(() => validateImport(loop)).toThrow(/loop/);
+
+    const orphan = structuredClone(state);
+    orphan.checks[0].objectiveId = 'missing';
+    expect(() => validateImport(orphan)).toThrow(/recall checks.*invalid/);
+  });
+
+  it('rejects invalid check values and dates', () => {
+    const invalidLevel = structuredClone(state) as AppState;
+    invalidLevel.checks[0].level = 'unknown' as 'thin';
+    expect(() => validateImport(invalidLevel)).toThrow(/recall checks.*invalid/);
+
+    const invalidDate = structuredClone(state);
+    invalidDate.objectives[0].updatedAt = 'not a date';
+    expect(() => validateImport(invalidDate)).toThrow(/incomplete or invalid/);
+  });
 });

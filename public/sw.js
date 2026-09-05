@@ -1,4 +1,4 @@
-const CACHE = 'recall-map-v4';
+const CACHE = 'recall-map-v5';
 const PRECACHE = __PRECACHE__;
 
 self.addEventListener('install', event => {

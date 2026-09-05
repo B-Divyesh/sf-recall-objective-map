@@ -77,17 +77,75 @@ export function validateImport(value: unknown): AppState {
   if (input.version !== 1 || !Array.isArray(input.objectives) || !Array.isArray(input.checks)) {
     throw new Error('This export format is not supported. Choose a Recall Objective Map JSON file.');
   }
-  for (const objective of input.objectives) {
-    if (!objective || typeof objective.id !== 'string' || typeof objective.title !== 'string' || typeof objective.prompt !== 'string') {
-      throw new Error('One or more objectives in that file are incomplete.');
+  if (input.objectives.length > 10_000 || input.checks.length > 100_000) {
+    throw new Error('That file is too large to import safely.');
+  }
+
+  const isText = (item: unknown, max: number, allowEmpty = false): item is string =>
+    typeof item === 'string' && item.length <= max && (allowEmpty || item.trim().length > 0);
+  const isDate = (item: unknown): item is string =>
+    typeof item === 'string' && item.trim().length > 0 && Number.isFinite(Date.parse(item));
+  const objectiveIds = new Set<string>();
+  const objectives: Objective[] = input.objectives.map(objective => {
+    if (!objective || typeof objective !== 'object') throw new Error('One or more objectives in that file are incomplete.');
+    const item = objective as Partial<Objective>;
+    if (!isText(item.id, 200) || objectiveIds.has(item.id) || !isText(item.title, 100) ||
+        !isText(item.description, 600, true) || !isText(item.prompt, 500) ||
+        !isText(item.evidenceTarget, 500) || !isDate(item.createdAt) || !isDate(item.updatedAt) ||
+        !(item.parentId === null || isText(item.parentId, 200))) {
+      throw new Error('One or more objectives in that file are incomplete or invalid.');
+    }
+    objectiveIds.add(item.id);
+    return {
+      id: item.id,
+      title: item.title.trim(),
+      description: item.description.trim(),
+      parentId: item.parentId,
+      prompt: item.prompt.trim(),
+      evidenceTarget: item.evidenceTarget.trim(),
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
+    };
+  });
+
+  for (const objective of objectives) {
+    if (objective.parentId !== null && (!objectiveIds.has(objective.parentId) || objective.parentId === objective.id)) {
+      throw new Error('One or more objective links in that file are invalid.');
+    }
+    const visited = new Set([objective.id]);
+    let parentId = objective.parentId;
+    while (parentId !== null) {
+      if (visited.has(parentId)) throw new Error('That file contains an objective loop.');
+      visited.add(parentId);
+      parentId = objectives.find(item => item.id === parentId)?.parentId ?? null;
     }
   }
-  for (const check of input.checks) {
-    if (!check || typeof check.id !== 'string' || typeof check.objectiveId !== 'string' || !MODES.includes(check.mode)) {
-      throw new Error('One or more recall checks in that file are incomplete.');
+
+  const checkIds = new Set<string>();
+  const checks: RecallCheck[] = input.checks.map(check => {
+    if (!check || typeof check !== 'object') throw new Error('One or more recall checks in that file are incomplete.');
+    const item = check as Partial<RecallCheck>;
+    if (!isText(item.id, 200) || checkIds.has(item.id) || !isText(item.objectiveId, 200) ||
+        !objectiveIds.has(item.objectiveId) || !isText(item.prompt, 500) || !isText(item.answer, 4000) ||
+        !MODES.includes(item.mode as EvidenceMode) || !['thin', 'building', 'supported'].includes(item.level ?? '') ||
+        !isText(item.note, 600, true) || !isDate(item.checkedAt)) {
+      throw new Error('One or more recall checks in that file are incomplete or invalid.');
     }
-  }
-  return input as AppState;
+    checkIds.add(item.id);
+    return {
+      id: item.id,
+      objectiveId: item.objectiveId,
+      prompt: item.prompt.trim(),
+      answer: item.answer.trim(),
+      mode: item.mode as EvidenceMode,
+      level: item.level as EvidenceLevel,
+      note: item.note.trim(),
+      checkedAt: item.checkedAt,
+    };
+  });
+
+  if (!isDate(input.updatedAt)) throw new Error('That file has an invalid update date.');
+  return { version: 1, objectives, checks, updatedAt: input.updatedAt };
 }
 
 const csvCell = (value: string | number) => `"${String(value).replaceAll('"', '""')}"`;

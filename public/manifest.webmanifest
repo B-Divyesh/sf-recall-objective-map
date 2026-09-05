@@ -1,9 +1,9 @@
 {
   "name": "Recall Objective Map",
   "short_name": "Recall Map",
-  "description": "A local-first map from learning objectives to recall evidence.",
-  "id": "/",
-  "start_url": "/?source=installed-v1",
+  "description": "Tie recall checks to objectives and review recent evidence.",
+  "id": "/map",
+  "start_url": "/map?source=installed-v2",
   "scope": "/",
   "display": "standalone",
   "background_color": "#f4f0e6",
