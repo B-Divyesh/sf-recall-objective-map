@@ -1,6 +1,24 @@
-# Recall Objective Map — repair handoff
+# Recall Objective Map — review 2 handoff
 
 ## Release status
+
+**PASS — 0 findings and 0 untested public claims.** Fresh strict review confirmed the
+job, audience, and **Try it with sample data** action before scrolling on desktop and
+phone. The sample populated four objectives, kept its persistent label, reset
+correctly, and did not alter real data. Live normal, invalid, boundary, and recovery
+flows passed: recall evidence saved; whitespace-only fields announced an error; an
+oversized import was rejected; and a corrected objective then saved.
+
+`npm ci`, `npm test`, `npm run build`, `npm run test:e2e`, and `npm audit` pass from a
+clean checkout. All 12 exact claim commands in `.factory/claims.json` were run
+separately and pass. The supplied URL verifier and live Axe scans passed. Fresh mobile
+Lighthouse measured 100 Performance / 100 Accessibility / 100 Best Practices / 100
+SEO (LCP 1.19 s, TBT 50 ms, CLS 0). See `.factory/review-2.md` for complete evidence.
+
+The reviewed implementation is `63ac99d0ca1e0c5d97fcd74a0ded5c1c8796a020`; the
+reviewed documentation baseline is `a4de2841f66d11d10900d255015d74d4f4a58f26`.
+They differ only because the latter is report documentation. The live shell, service
+worker, manifest, JavaScript, and CSS match the clean implementation build by SHA-256.
 
 The repaired static PWA is live at <https://recall-objective-map.sociobot.in>.
 The deployed implementation is commit
