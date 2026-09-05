@@ -72,7 +72,7 @@ function header() {
 }
 
 function footer() {
-  return `<footer class="site-footer"><p>Link recall checks to objectives and review recent evidence.</p><nav class="footer-links" aria-label="Footer"><a href="/privacy" data-route>Privacy</a><a href="/terms" data-route>Terms</a><a href="https://github.com/B-Divyesh/sf-recall-objective-map" rel="noreferrer">Source (external)</a><a href="https://www.sociobot.in/">Param Factory (external)</a></nav><p class="build-id">Version ${BUILD_ID} · Generated artwork</p></footer>`;
+  return `<footer class="site-footer"><p>Link recall checks to objectives and review recent evidence.</p><nav class="footer-links" aria-label="Footer"><a href="/privacy" data-route>Privacy</a><a href="/terms" data-route>Terms</a><a href="https://github.com/B-Divyesh/sf-recall-objective-map" rel="noreferrer">Source (external)</a><a href="https://sociobot.in/">Param Factory (external)</a></nav><p class="build-id">Version ${BUILD_ID} · Generated artwork</p></footer>`;
 }
 
 function demoBanner() {

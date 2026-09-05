@@ -34,9 +34,12 @@ for (const viewport of [
   await page.getByLabel('What would count as evidence?').fill('The temporary item disappears.');
   await page.getByRole('button', { name: 'Save objective' }).click();
   await page.getByRole('button', { name: 'Reset demo' }).click();
+  await page.getByRole('button', { name: /Temporary live check/ }).waitFor({ state: 'detached' });
   const temporaryAfterReset = await page.getByRole('button', { name: /Temporary live check/ }).count();
 
   await page.getByRole('button', { name: 'Start for real' }).click();
+  await page.waitForURL(`${baseUrl}/map`);
+  await page.getByRole('heading', { name: 'Add your first learning objective' }).waitFor();
   const realEmpty = await page.getByRole('heading', { name: 'Add your first learning objective' }).isVisible();
   await page.goto(`${baseUrl}/demo`, { waitUntil: 'networkidle' });
   await page.screenshot({ path: `${evidenceDir}/${viewport.name}-demo.png`, fullPage: true });
