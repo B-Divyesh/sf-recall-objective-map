@@ -1,53 +1,65 @@
 # Recall Objective Map
 
-Recall Objective Map is an offline-first field guide for self-learners beginning a
-broad subject. It keeps learning objectives, one-question recall checks, and manually
-recorded evidence together so the next weak sub-skill is visible without browsing a
-card deck. It is deliberately not a scheduler, course generator, or mastery score.
+Recall Objective Map is for self-learners starting a broad topic. It ties each recall
+question to a stated objective, then shows the two objectives with the thinnest recent
+evidence. The labels describe self-recorded attempts; they do not measure mastery.
 
 Live: <https://recall-objective-map.sociobot.in>
 
+Demo: <https://recall-objective-map.sociobot.in/demo>
+
 ## What it does
 
-- Maps nested objectives with one recall question and an explicit evidence target.
-- Records explain, solve, or recognize evidence as thin, building, or supported.
-- Surfaces the two objectives with the thinnest evidence in a rolling weekly map.
-- Stores everything locally in IndexedDB and works after the network disappears.
-- Exports full JSON backups and portable weak-skill CSV reports; imports with preview.
-- Optionally unlocks printable reports and longer evidence lenses with a one-time license.
+- Nests objectives and keeps one recall question and evidence target with each one.
+- Records Explain, Solve, or Recognize evidence as Thin, Building, or Supported.
+- Compares the last 7, 14, or 30 days and shows the two thinnest objectives.
+- Keeps real and demo records in separate browser storage.
+- Works offline after the first online load.
+- Exports complete JSON backups and one CSV report row per objective.
+- Rejects malformed imports and asks before replacing a map.
+- Sends no learning records or tracking requests to another origin during normal use.
 
-Evidence labels reflect the learner's own recorded attempts; they do not measure
-mastery or ability.
+The complete objective, recall, report, import, and export workflow is free. It needs
+no account. This app does not generate course content, grade mastery, or schedule cards.
 
-## Develop and verify
+## Run and verify
 
-Requires Node.js 20+.
+Requires Node.js 20 or newer.
 
 ```sh
-npm install
-npm run dev
+npm ci
 npm test
-npm run build       # exact production command; writes dist/index.html
-npm run test:e2e    # production build + Chromium accessibility/offline flows
+npm run build
+npm run test:e2e
+npm audit
 ```
 
-Preview the production build with `npm run preview`. The custom build step injects all
-generated assets into the service worker’s versioned precache.
+`npm run build` writes the deployable site to `dist/`. To run one registered public
+claim from a clean checkout, use its exact command in `.factory/claims.json`, for
+example:
+
+```sh
+npm run test:claims -- --grep '@claim:offline-reload'
+```
 
 ## Data and privacy
 
-Learning records never leave the browser. There are no analytics, ads, external fonts,
-or runtime CDN dependencies. When a user supplies a paid license, the app contacts only
-the Sociobot verification endpoint at most once per day. See `/privacy/` and `/terms/`.
+Real records use IndexedDB database `recall-objective-map`. Demo records use
+`recall-objective-map-demo`. Separate localStorage keys provide a browser fallback.
+JSON export keeps a full backup; CSV export contains the weak-objective report.
+
+There are no analytics, ads, external fonts, third-party scripts, accounts, or runtime
+CDN dependencies. See `/privacy` and `/terms`.
 
 ## Deploy
 
-Deploy the contents of `dist/` as a static site with history fallback to `index.html`.
-Do not deploy from the repository root. The factory manages DNS, billing product
-registration, and release-time billing configuration.
+Deploy only the contents of `dist/`. `staticwebapp.config.json` declares the known SPA
+routes, designed 404 response, immutable hashed-asset caching, MIME types, and security
+headers. The factory manages DNS and deployment infrastructure.
 
-The researched scope is in `.factory/brief.json`, visual system and asset provenance in
-`.factory/design.md`, and verification notes in `.factory/handoff.md`.
+Scope is recorded in `.factory/brief.json`, the visual system and asset provenance in
+`.factory/design.md`, the demo in `.factory/demo.md`, and verification in
+`.factory/handoff.md`.
 
 ## License
 

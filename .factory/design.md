@@ -1,9 +1,9 @@
 # Recall Objective Map — visual thesis
 
-## Direction: a working field guide, printed in halftone
+## Direction: a working study record, printed in halftone
 
 This product turns fuzzy confidence into inspectable evidence. Its interface therefore
-borrows from a naturalist's field notebook and a two-ink screen print: warm paper,
+borrows from a working notebook and a two-ink screen print: warm paper,
 decisive rules, compact annotations, registration marks, and a restrained halftone
 texture. The map is the artifact—not a dashboard full of interchangeable cards.
 Decoration appears only where it explains the objective → check → evidence loop.
@@ -39,10 +39,10 @@ Rules and proximity create groups before containers do.
 
 ## Interaction grammar
 
-- Objectives read like expandable field-guide entries. A vertical ink line carries
+- Objectives read like expandable study entries. A vertical ink line carries
   the hierarchy; indentation and numbered specimen marks show parentage.
 - Evidence modes are large stamped toggles: **Explain**, **Solve**, **Recognize**.
-- The single review question takes over a focused sheet; the learner reveals their
+- The single review question takes over a focused area; the learner reveals their
   own answer, records evidence, and sees the next weak objective immediately.
 - Scoring language is deliberately evidence-based: “thin / building / supported,”
   never “mastered.” Percentages are not shown.
@@ -65,7 +65,9 @@ for interface symbols. The sole raster illustration is served responsively as AV
 WebP, and JPEG from `public/assets/`; it is an original editorial still-life: a
 branching learning map printed on paper, with
 three evidence stamps and no simulated UI/text. It explains the product's core loop
-in the welcome/empty state. The manifest icons are authored SVG-derived PNGs.
+in the landing and empty states. The manifest icons are authored SVG-derived PNGs.
+`public/assets/social-card.jpg` is a 1200×630 center crop of that same original image;
+`public/icons/apple-touch-icon.png` is resized from the authored app icon.
 
 ### Generation prompt sheet
 
@@ -82,11 +84,26 @@ in the welcome/empty state. The manifest icons are authored SVG-derived PNGs.
 
 Provenance: generated 2026-08-28 using the factory Azure image deployment via
 `/opt/fleet/lib/gen-image.sh`, then inspected and converted locally to WebP. The output
-is original to this product; generated imagery is disclosed in the footer.
+is original to this product; generated imagery is disclosed in the footer. The social
+crop and Apple touch icon were derived locally on 2026-09-05 with ImageMagick and add
+no outside source material.
 
 ## Motion
 
-Motion is functional and paper-like: a 180ms opacity/translate reveal for newly opened
-entries and a 220ms sheet transition for review. Nothing loops. Under
+Motion is limited to a 180ms status message transition and direct pressed feedback.
+Nothing loops. Under
 `prefers-reduced-motion: reduce`, transitions and smooth scrolling are removed and all
 state changes are immediate. Depth remains through borders, overlap, and scale.
+
+## Public structure and feature boundaries
+
+The landing page names the job and audience before showing the generated image. Its
+first action opens the isolated sample. Route headings use direct task names: Home,
+Demo, My map, Privacy, Terms, and Page not found. Product controls use objective,
+recall check, evidence, and weak-objective map consistently; visual notebook references
+do not appear in task instructions.
+
+No AI feature is included. The work depends on the learner's own recall and judgment,
+so model-generated or model-scored content would weaken the product's stated purpose.
+The formerly advertised paid add-on is not shown while its external billing product is
+unavailable. Reports and evidence windows are currently part of the free product.
